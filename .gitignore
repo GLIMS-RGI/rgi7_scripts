@@ -1,0 +1,31 @@
+*.py[cod]
+__pycache__
+
+# IDE stuffs
+.idea/
+.vscode/
+
+# coverage stuffs
+.coverage
+
+# OS generated files
+.DS_Store
+
+# Notebook stuffs
+examples/*checkpoints
+.ipynb_checkpoints
+*.nbgrader.log
+
+# Tests stuffs
+.pytest_cache
+
+# Packages
+*.egg
+*.egg-info
+eggs
+*.eggs
+
+# Other
+*.cache
+*.lock
+
