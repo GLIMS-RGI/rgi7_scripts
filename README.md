@@ -2,6 +2,8 @@
 
 This is a work in progress.
 
+![RGI Workflow](img/workflow_rgi.png)
+
 ## Pre-processing workflow
 
 Notebooks in the `workflow` folder:
@@ -15,7 +17,9 @@ At the end of this workflow (L2 files), the shapes are ready for region per regi
 
 ## Regional outline selection workflow
 
-Notebooks are in the `outline_selection` folder. Currently only RGI01 as proof of concept!
+Notebooks scripts are in the `outline_selection` folder.
+
+The work-in-progress RGI7 alpha files are available for review in the `l3_rgi7a_tar` folder. Regions are being added regularly!
 
 ## Current data
 
