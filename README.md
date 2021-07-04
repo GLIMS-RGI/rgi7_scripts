@@ -74,6 +74,32 @@ $ cd l2_sel_reg_tars
 $ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l2_sel_reg_tars/
 ```
 
+## RGI region summary and known issues
+
+This list is intentionally short. For accurate, up-to-date information, see the regional scripts.
+
+### RGI01 (Alaska)
+
+Same as RGI6. 
+
+Known issues in 7a:
+- two outlines (multipolygon) are [wrongly merged](https://github.com/GLIMS-RGI/glims_issue_tracker/issues/5) in GLIMS (i.e. this needs a fix in GLIMS itself).
+
+### RGI12 (Caucasus and Middle East)
+
+Most outlines replaced with the 2013 inventory by Levan Tielidze in Caucasus and the 2011 inventory by Neamat Karimi and others in Middle East. Remaining outlines from RGI6.
+
+Known issues in 7a:
+- Remaining outlines from RGI6 still of variable quality
+- The two inventories are of good quality but quite far from the year 2000
+
+### RGI13, 14, 15 (High Mountain Asia)
+
+All outlines replaced with GAMDAMv2 (Akiko Sakai). 
+
+Known issues in 7a:
+- same as for region 01, but with about 400 outlines that are not properly separated (data ingestion issues in GLIMS).
+
 ## License
 
 Code: BSD3
