@@ -50,26 +50,29 @@ Careful! The files might (and will) change with time.
 
 **Download all data at once (currently about 10G):**
 
-  $ mkdir rgi7_data
-  $ cd rgi7_data
-  $ wget --recursive --no-parent --cut-dirs=3 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/
-
+```bash
+$ mkdir rgi7_data
+$ cd rgi7_data
+$ wget --recursive --no-parent --cut-dirs=3 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/
+```
 
 This will recursively download all currently available files on the server, including pre-processing levels and some necessary duplicated files. 
 
 **If you want to participate to the RGI review process**, you may download only the alpha version regional files:
 
-  $ mkdir rgi7a
-  $ cd rgi7a
-  $ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l3_rgi7a/
-
+```bash
+$ mkdir rgi7a
+$ cd rgi7a
+$ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l3_rgi7a/
+```
 
 **If you want to participate to the RGI selection process**, you may download the level 2 files as well:
 
-  $ mkdir l2_sel_reg_tars
-  $ cd l2_sel_reg_tars
-  $ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l2_sel_reg_tars/
-
+```bash
+$ mkdir l2_sel_reg_tars
+$ cd l2_sel_reg_tars
+$ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l2_sel_reg_tars/
+```
 
 ## License
 
