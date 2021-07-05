@@ -37,8 +37,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Downloads
 
-Nomenclature:la
-- "l2 files": GLIMS data files after preprocessing. Ready for outlines choice.
+File name conventions:
+- "l2 files": GLIMS data files after preprocessing. Ready for the outlines choice scripts.
 - "RGI alpha": selected outlines for RGI7, still with GLIMS attributes. Ready for review of the outlines choice.
 - "RGI beta": alpha files with RGI attributes. Ready for review before final publication.
 
@@ -76,29 +76,29 @@ $ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster
 
 ## RGI region summary and known issues
 
-This list is intentionally short. For accurate, up-to-date information, see the regional scripts.
+Thes list below is intentionally short. For accurate, up-to-date information, see the regional scripts (where the outline selection actually happens) and the [regional discussions](https://github.com/GLIMS-RGI/rgi7_scripts/issues) on github.
 
 ### RGI01 (Alaska)
 
-Same as RGI6. 
+Same as RGI6.
 
 Known issues in 7a:
 - two outlines (multipolygon) are [wrongly merged](https://github.com/GLIMS-RGI/glims_issue_tracker/issues/5) in GLIMS (i.e. this needs a fix in GLIMS itself).
 
 ### RGI12 (Caucasus and Middle East)
 
-Most outlines replaced with the 2013 inventory by Levan Tielidze in Caucasus and the 2011 inventory by Neamat Karimi and others in Middle East. Remaining outlines from RGI6.
+Most outlines replaced with the 2013 inventory by Levan Tielidze in Caucasus and the 2011 inventory by Neamat Karimi and others in Middle East. Remaining outlines in smaller mountain chains are from RGI6.
 
 Known issues in 7a:
-- Remaining outlines from RGI6 still of variable quality
-- The two inventories are of good quality but quite far from the year 2000
+- Remaining outlines from RGI6 of variable quality
+- The two new inventories are of good quality but quite far from the year 2000
 
 ### RGI13, 14, 15 (High Mountain Asia)
 
 All outlines replaced with GAMDAMv2 (Akiko Sakai). 
 
 Known issues in 7a:
-- same as for region 01, but with about 400 outlines that are not properly separated (data ingestion issues in GLIMS).
+- about 400 outlines that are not properly separated (probably same as region 01: data ingestion issues in GLIMS).
 
 ## License
 
