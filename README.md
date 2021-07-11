@@ -85,6 +85,27 @@ Same as RGI6.
 Known issues in 7a:
 - two outlines (multipolygon) are [wrongly merged](https://github.com/GLIMS-RGI/glims_issue_tracker/issues/5) in GLIMS (i.e. this needs a fix in GLIMS itself).
 
+
+### RGI09 (Russian Arctic)
+
+Same as RGI6.
+
+Known issues in 7a:
+- NA
+
+### RGI10 (Asia North)
+
+RGI7a for region 10 was produced by:
+- extracting RGI6 data from GLIMS data base
+- dropping all nominal glaciers (116, located on Wrangel Island and islands in the Sibirian Sea) 
+- replacing glaciers in Kamtchatka with data by Barr
+
+Known issues in 7a:
+- omitted nominal glaciers which account for about 84 km² and could not be replaced by other data as no outlines for these areas are available in GLIMS.
+- the subset of Kamchatka glaciers which shall be replaced based on data by Barr. In a first version we replaced all...
+- the glacier divides presented by Barr which should be checked and eventually be revised. 
+
+
 ### RGI12 (Caucasus and Middle East)
 
 Most outlines replaced with the 2013 inventory by Levan Tielidze in Caucasus and the 2011 inventory by Neamat Karimi and others in Middle East. Remaining outlines in smaller mountain chains are from RGI6.
