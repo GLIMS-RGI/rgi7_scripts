@@ -4,7 +4,7 @@ RGI7 is the next version of the Randolph Glacier Inventory. RGI7 intends to be t
 
 Unlike previous versions of the RGI, RGI7 will be a pure subset of the GLIMS database. This repository contains the scripts that generate RGI7 out of GLIMS. 
 
-This is a work in progress! Contributions and feedback welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for tips and instructions about how to help in this process.
+This is a work in progress! Contributions and feedback welcome.
 
 ![RGI Workflow](img/workflow_rgi.png)
 
@@ -24,16 +24,14 @@ Notebooks in the [workflow/preprocessing](workflow/preprocessing) folder:
 
 Regional notebooks scripts are in the [workflow](workflow) folder.
 
-The work-in-progress RGI7 alpha files are available for review in https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l3_rgi7a_tar. Regions are being added regularly!
+The RGI7 alpha files are available in https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l3_rgi7a_tar. 
+**All regions are now available for review**.
+
+For accurate, up-to-date information about each region, jumpt to the [RGI7 wiki](https://github.com/GLIMS-RGI/rgi7_scripts/wiki/RGI-7-wiki).
 
 ## 03. Attribute generation workflow
 
 TBA.
-
-## How to contribute
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
 
 ## Downloads
 
@@ -76,10 +74,6 @@ $ mkdir l2_sel_reg_tars
 $ cd l2_sel_reg_tars
 $ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l2_sel_reg_tars/
 ```
-
-## RGI region summary and known issues
-
-For accurate, up-to-date information, see the regional scripts (where the outline selection actually happens) and the [RGI7 wiki](https://github.com/GLIMS-RGI/rgi7_scripts/wiki/RGI-7-wiki) on github.
 
 ## License
 
