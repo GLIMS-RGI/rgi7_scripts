@@ -2,7 +2,7 @@
 
 RGI7 is the next version of the Randolph Glacier Inventory. RGI7 intends to be the reference inventory for all of the world's glaciers outside of the two ice sheets. All glacier outlines should be mapped as close as possible to the the year 2000. 
 
-Unlike previous versions of the RGI, RGI7 will be a full subset of the GLIMS database. This repository contains the scripts that generate RGI7 out of GLIMS. 
+Unlike previous versions of the RGI, RGI7 will be a pure subset of the GLIMS database. This repository contains the scripts that generate RGI7 out of GLIMS. 
 
 This is a work in progress! Contributions and feedback welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for tips and instructions about how to help in this process.
 
@@ -37,18 +37,21 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Downloads
 
-File name conventions:
-- "l2 files": GLIMS data files after preprocessing. Ready for the outlines choice scripts.
-- "RGI alpha": selected outlines for RGI7, still with GLIMS attributes. Ready for review of the outlines choice.
-- "RGI beta": alpha files with RGI attributes. Ready for review before final publication.
-
 The files at each level (in tar or shapefile format) are downloadable here:
 
 https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/
 
 Careful! The files might (and will) change with time.
 
-**Download all data at once (currently about 10G):**
+File name conventions:
+- "level 2 files" (`l2_sel_reg_tars`): GLIMS data files after preprocessing. Ready for the outlines choice scripts.
+- "RGI alpha" (`l3_rgi7a_tar`): selected outlines for RGI7, still with GLIMS attributes. Ready for review of the outlines choice.
+- "RGI beta" (not there yet) : alpha files with RGI attributes. Ready for review before final publication.
+
+Other folders contain files which are used for testing in production (`l0_support_data`) or which are used to report problems to GLIMS (`l3_problem_glaciers_tar`).
+
+
+**Download all data at once (currently about 12G):**
 
 ```bash
 $ mkdir rgi7_data
@@ -76,7 +79,7 @@ $ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster
 
 ## RGI region summary and known issues
 
-For accurate, up-to-date information, see the regional scripts (where the outline selection actually happens) and the [regional discussions](https://github.com/GLIMS-RGI/rgi7_scripts/issues?q=is%3Aopen+is%3Aissue+label%3A%22region+check%22) on github.
+For accurate, up-to-date information, see the regional scripts (where the outline selection actually happens) and the [RGI7 wiki](https://github.com/GLIMS-RGI/rgi7_scripts/wiki/RGI-7-wiki) on github.
 
 ## License
 
