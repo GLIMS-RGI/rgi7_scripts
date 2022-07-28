@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import seaborn as sns
 
-# RGI6
 import zipfile
+import tarfile
 
 def open_zip_shapefile(fpath, exclude_pattern='', include_pattern=''):
     with zipfile.ZipFile(fpath, "r") as z:
@@ -22,22 +22,31 @@ def open_zip_shapefile(fpath, exclude_pattern='', include_pattern=''):
                 
     return gpd.read_file('zip://' + fpath + '/' + fname)
 
-# This could be made lazy to speed up imports
-maps = {}
-fpath = '../../rgi7_data/l0_support_data/ne_10m_coastline.zip'
-maps['coast_hr'] = open_zip_shapefile(fpath)
-fpath = '../../rgi7_data/l0_support_data/ne_50m_coastline.zip'
-maps['coast_mr'] = open_zip_shapefile(fpath)
-fpath = '../../rgi7_data/l0_support_data/ne_110m_coastline.zip'
-maps['coast_lr'] = open_zip_shapefile(fpath)
-fpath = '../../rgi7_data/l0_support_data/ne_10m_admin_0_countries.zip'
-maps['countries_hr'] = open_zip_shapefile(fpath)
-fpath = '../../rgi7_data/l0_support_data/ne_50m_admin_0_countries.zip'
-maps['countries_mr'] = open_zip_shapefile(fpath)
-fpath = '../../rgi7_data/l0_support_data/ne_110m_admin_0_countries.zip'
-maps['countries_lr'] = open_zip_shapefile(fpath)
 
-data_dir = '../../rgi7_data/'
+def open_tar_shapefile(fpath):
+    with tarfile.open(fpath, "r:gz") as tar:
+        for member in tar.getmembers():
+            if '.shp' in member.path:
+                fname = member.path
+    return gpd.read_file('tar://' + fpath + '/' + fname)
+
+
+# This could be made lazy to speed up imports
+data_dir = '/home/www/fmaussion/misc/rgi7_data'
+
+maps = {}
+fpath = f'{data_dir}/l0_support_data/ne_10m_coastline.zip'
+maps['coast_hr'] = open_zip_shapefile(fpath)
+fpath = f'{data_dir}/l0_support_data/ne_50m_coastline.zip'
+maps['coast_mr'] = open_zip_shapefile(fpath)
+fpath = f'{data_dir}/l0_support_data/ne_110m_coastline.zip'
+maps['coast_lr'] = open_zip_shapefile(fpath)
+fpath = f'{data_dir}/l0_support_data/ne_10m_admin_0_countries.zip'
+maps['countries_hr'] = open_zip_shapefile(fpath)
+fpath = f'{data_dir}/l0_support_data/ne_50m_admin_0_countries.zip'
+maps['countries_mr'] = open_zip_shapefile(fpath)
+fpath = f'{data_dir}/l0_support_data/ne_110m_admin_0_countries.zip'
+maps['countries_lr'] = open_zip_shapefile(fpath)
 
 wgms_classes = {
     0:'NA',
@@ -149,6 +158,24 @@ def needs_size_filter(shp):
 def size_filter(shp):
     return shp.loc[np.round(shp['area'] * 1e-6, 3) >= 0.01].copy()
 
+def find_duplicates(df):
+    rp = gpd.GeoDataFrame(df.representative_point(), columns=['geometry'])
+    rp['orig_index'] = df.index
+    isin = gpd.overlay(rp, df, how='intersection')
+    if len(isin) == len(rp):
+        print('Seems Okay!')
+        return
+    dupes = isin['orig_index'].duplicated()
+    dupes = df.loc[isin.loc[dupes]['orig_index'].unique()]
+    print(f'Potential duplicates: {len(dupes)}')
+    return dupes
+
+def find_neighbors(s, df, n=10):
+    lon, lat = s.representative_point().iloc[0].coords.xy
+    dis = (df['CenLon'] - lon)**2 + (df['CenLat'] - lat)**2
+    return df.loc[dis.sort_values().index[:n]].copy()
+    
+
 def plot_map(shp, reg, figsize=(14, 14), edgecolor=None, linewidth=1, loc='best', title=None, mapres='mr', is_rgi6=False, savefig=True, aspect=None):
     
     f, ax = plt.subplots(figsize=figsize)
@@ -215,3 +242,37 @@ def plot_date_hist(shp, reg=None, figsize=(10, 5), reset_index=False, title=None
         mkdir(plot_dir)
         plotname = 'date_hist'
         plt.savefig(plot_dir + f'/{plotname}.png', bbox_inches='tight', dpi=150)
+
+        
+def haversine(lon1, lat1, lon2, lat2):
+    """Great circle distance between two (or more) points on Earth
+    Parameters
+    ----------
+    lon1 : float
+       scalar or array of point(s) longitude
+    lat1 : float
+       scalar or array of point(s) longitude
+    lon2 : float
+       scalar or array of point(s) longitude
+    lat2 : float
+       scalar or array of point(s) longitude
+    Returns
+    -------
+    the distances
+    Examples:
+    ---------
+    >>> haversine(34, 42, 35, 42)
+    82633.46475287154
+    >>> haversine(34, 42, [35, 36], [42, 42])
+    array([ 82633.46475287, 165264.11172113])
+    """
+
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(np.radians, [lon1, lat1, lon2, lat2])
+
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = np.sin(dlat / 2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2)**2
+    c = 2 * np.arcsin(np.sqrt(a))
+    return c * 6371000  # Radius of earth in meters
