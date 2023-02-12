@@ -1,11 +1,15 @@
 import shutil
+import glob
 import os
-import numpy as np
-import pandas as pd
-import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import seaborn as sns
+
+import numpy as np
+import pandas as pd
+import geopandas as gpd
+from shapely.validation import make_valid
+import shapely.geometry as shpg
 
 import zipfile
 import tarfile
@@ -20,17 +24,22 @@ def open_zip_shapefile(fpath, exclude_pattern='', include_pattern=''):
                     continue
                 fname = f.filename
                 
-    return gpd.read_file('zip://' + fpath + '/' + fname)
-
+    shpf = gpd.read_file('zip://' + fpath + '/' + fname)
+    for f in glob.glob(f"{os.path.dirname(fpath)}/*.properties"):
+        os.remove(f)
+    
+    return shpf
 
 def open_tar_shapefile(fpath):
     with tarfile.open(fpath, "r:gz") as tar:
         for member in tar.getmembers():
             if '.shp' in member.path:
                 fname = member.path
-    return gpd.read_file('tar://' + fpath + '/' + fname)
-
-
+    shpf = gpd.read_file('tar://' + fpath + '/' + fname)
+    for f in glob.glob( f"{os.path.dirname(fpath)}/*.properties"):
+        os.remove(f)
+    return shpf
+    
 # This could be made lazy to speed up imports
 data_dir = '/home/www/fmaussion/misc/rgi7_data'
 
@@ -276,3 +285,87 @@ def haversine(lon1, lat1, lon2, lat2):
     a = np.sin(dlat / 2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2)**2
     c = 2 * np.arcsin(np.sqrt(a))
     return c * 6371000  # Radius of earth in meters
+
+
+def correct_geoms(gdf, pick_second=False):
+    
+    gdf_new = gdf.copy()
+    isv = gdf.is_valid
+    geoms_to_add = []
+    
+    n_no = (~isv).sum()
+    if not pick_second:
+        print(f'Found {n_no} invalid geometries out of {len(gdf)}. Correcting...')
+    
+    total_area_bef = gdf['area'].sum()
+
+    for i, s in gdf.loc[~isv].iterrows():
+          
+        new_geom = make_valid(s.geometry)
+        additional_geom = None
+        
+        # Area check
+        area_bef = s['area']
+        
+        if type(new_geom) != shpg.Polygon:
+            # Check everyones area
+            areas = []
+            for geom in new_geom.geoms:
+                new_s = gpd.GeoSeries(geom)
+                new_s.crs = gdf.crs
+                areas.append(new_s.to_crs({'proj':'cea'}).area.iloc[0])
+            
+            # Pick the one
+            arg_areas = np.argsort(areas)
+            if pick_second:
+                new_geom = new_geom.geoms[arg_areas[-2]]
+            else:
+                new_geom = new_geom.geoms[arg_areas[-1]]
+            
+            if type(new_geom) != shpg.Polygon:
+                # Do it again if not polygon
+                areas = []
+                for geom in new_geom.geoms:
+                    new_s = gpd.GeoSeries(geom)
+                    new_s.crs = gdf.crs
+                    areas.append(new_s.to_crs({'proj':'cea'}).area.iloc[0])
+                
+                # Pick the one
+                arg_areas = np.argsort(areas)
+                if pick_second:
+                    raise RuntimeError('Probably not good to be here')
+                new_geom = new_geom.geoms[arg_areas[-1]]
+
+        assert type(new_geom) == shpg.Polygon, int(s.anlys_id)
+          
+        new_s = gpd.GeoSeries(new_geom)
+        new_s.crs = gdf.crs
+        area_new = new_s.to_crs({'proj':'cea'}).area.iloc[0]
+        if not pick_second and not np.allclose(area_bef, area_new, rtol=1e-3):
+            print(f'High correction: {int(s.anlys_id)}. Area diff: {area_new - area_bef} m2 ({area_new/area_bef*100 - 100:.04f}%)', end=' ')
+            if np.isclose(abs(area_new/area_bef*100), 50):
+                print('Seems to be a duplicate. Correcting and ignoring.')    
+            elif np.isclose(area_new, area_bef, atol=1e6):
+                print('Smaller than 0.1 km2. Ignoring.')  
+            else:
+                print('Likely two or more geometries. Adding a new entry to the list of outlines.')
+                additional_geom = correct_geoms(gdf.loc[[i]].copy(), pick_second=True)
+
+        gdf_new.loc[i, 'geometry'] = new_geom
+        gdf_new.loc[i, 'area'] = area_new
+    
+        if additional_geom is not None:
+            geoms_to_add.append(additional_geom)
+    
+    if geoms_to_add:
+        gdf_new = pd.concat([gdf_new]+geoms_to_add, ignore_index=True)
+    
+    total_area_aft = gdf_new['area'].sum()
+    
+    isv = gdf_new.is_valid
+    
+    if not pick_second:
+        print(f'After correction, {(~isv).sum()} geometries are still invalid.')
+        print(f'Area changed by {total_area_aft - total_area_bef:.1f} m2 ({total_area_aft/total_area_bef*100 - 100:.04f}%)')
+    
+    return gdf_new
