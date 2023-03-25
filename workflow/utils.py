@@ -4,15 +4,18 @@ import os
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import seaborn as sns
-
+import pyproj
 import numpy as np
 import pandas as pd
 import geopandas as gpd
 from shapely.validation import make_valid
 import shapely.geometry as shpg
+from overlaps_helpers import compute_self_overlaps, resolve_self_overlaps
 
 import zipfile
 import tarfile
+
+area_size_threshold_m2 = 9500
 
 def open_zip_shapefile(fpath, exclude_pattern='', include_pattern=''):
     with zipfile.ZipFile(fpath, "r") as z:
@@ -162,10 +165,10 @@ def submission_summary(shp):
     return sdf, df_class
 
 def needs_size_filter(shp):
-    return len(shp.loc[np.round(shp['area'] * 1e-6, 3) < 0.01]) > 0
+    return len(shp.loc[shp['area'] < area_size_threshold_m2]) > 0
 
 def size_filter(shp):
-    return shp.loc[np.round(shp['area'] * 1e-6, 3) >= 0.01].copy()
+    return shp.loc[shp['area'] >= area_size_threshold_m2].copy()
 
 def find_duplicates(df):
     rp = gpd.GeoDataFrame(df.representative_point(), columns=['geometry'])
@@ -287,7 +290,128 @@ def haversine(lon1, lat1, lon2, lat2):
     return c * 6371000  # Radius of earth in meters
 
 
-def correct_geoms(gdf, pick_second=False):
+def recursive_valid_polygons(geoms):
+    """Given a list of geometries, makes sure all geometries are valid polygons of area >9500"""
+    new_geoms = []
+    for geom in geoms:
+        new_geom = make_valid(geom)
+        try:
+            new_geoms.extend(recursive_valid_polygons(list(new_geom.geoms)))
+        except AttributeError:
+            new_s = gpd.GeoSeries(new_geom)
+            new_s.crs = 'EPSG:4326'
+            if new_s.to_crs({'proj':'cea'}).area.iloc[0] >= area_size_threshold_m2:
+                new_geoms.append(new_geom)
+    assert np.all([type(geom) == shpg.Polygon for geom in new_geoms])
+    return new_geoms
+
+
+def correct_geoms(gdf):
+    """Makes sure the geodataframe is full of valid polygons."""
+    
+    gdf_new = gdf.copy()
+    is_valid = gdf.is_valid
+    
+    n_not_valid = (~is_valid).sum()
+    print(f'Found {n_not_valid} invalid geometries out of {len(gdf)}. Correcting...')
+    
+    total_area_bef = gdf['area'].sum()
+    
+    geoms_to_add = []
+    
+    counter = 0
+    for i, s in gdf.loc[~is_valid].iterrows():
+        counter += 1
+        if counter%10 == 0 or counter == n_not_valid:
+            print(f'[{n_not_valid}] {counter}', end='\r', flush=True)
+        new_geoms = recursive_valid_polygons([s.geometry])
+        if len(new_geoms) == 0:
+            raise RuntimeError(f'No valid geometry for anlys_id {int(s.anlys_id)}')
+        elif len(new_geoms) == 1:
+            new_geom = new_geoms[0]
+            assert type(new_geom) == shpg.Polygon, int(s.anlys_id)
+            new_s = gpd.GeoSeries(new_geom)
+            new_s.crs = 'EPSG:4326'
+            area_new = new_s.to_crs({'proj':'cea'}).area.iloc[0]
+            
+            gdf_new.loc[i, 'geometry'] = new_geom
+            gdf_new.loc[i, 'area'] = area_new
+        else:
+            print(f'Multiple geometries ({len(new_geoms)}) for anlys_id {int(s.anlys_id)}')
+            areas = []
+            for geom in new_geoms:
+                new_s = gpd.GeoSeries(geom)
+                new_s.crs = 'EPSG:4326'
+                areas.append(new_s.to_crs({'proj':'cea'}).area.iloc[0])
+            if np.all(np.isclose(areas, areas[0])):
+                print('Seems to be a duplicate. Keeping first one and thats it.') 
+                gdf_new.loc[i, 'geometry'] = new_geoms[0]
+                gdf_new.loc[i, 'area'] = areas[0]
+            else:
+                print('Adding new entries to the list of outlines.')
+                gdf_new.loc[i, 'geometry'] = new_geoms[0]
+                gdf_new.loc[i, 'area'] = areas[0]
+                
+                for new_geom, new_area in zip(new_geoms[1:], areas[1:]):
+                    new_geos = gdf.loc[[i]].copy()
+                    new_geos['geometry'] = new_geom
+                    new_geos['area'] = new_area
+                    geoms_to_add.append(new_geos)
+    
+    if geoms_to_add:
+        print(f'Adding {len(geoms_to_add)} geometeries in total')
+        gdf_new = pd.concat([gdf_new]+geoms_to_add, ignore_index=True)
+        
+    total_area_aft = gdf_new['area'].sum()
+    is_valid = gdf_new.is_valid
+    print(f'After correction, {(~is_valid).sum()} geometries are still invalid.')
+    print(f'Area changed by {total_area_aft - total_area_bef:.1f} m2 ({total_area_aft/total_area_bef*100 - 100:.04f}%, '
+          f'or {int((total_area_aft - total_area_bef)/area_size_threshold_m2)} tiny glaciers)')
+    return gdf_new.reset_index()
+
+
+def fix_overaps(gdf, check=True):
+    
+    total_area_bef = gdf['area'].sum()
+    
+    # --- Compute RGI7 self overlaps
+    overlaps = compute_self_overlaps(gdf.geometry)
+    
+    print(f'Found {len(overlaps)} overlaps out of {len(gdf)}. ', end='')
+    if len(overlaps) == 0:
+        print('Returning.')
+        return gdf
+    
+    print('Correcting...')
+    
+    resolved = resolve_self_overlaps(
+      overlaps=overlaps,
+      geoms=gdf.geometry,
+      min_area=1e4,
+      transformer=pyproj.Transformer.from_crs(
+        'EPSG:4326', {'proj': 'cea'}, always_xy=True
+      )
+    )
+    
+    # --- Correct
+    gdf.geometry[resolved.index] = resolved
+    
+    gdf['area'] = gdf.to_crs({'proj':'cea'}).area
+    total_area_aft = gdf['area'].sum()
+    
+    print(f'After correction, Area changed by {total_area_aft - total_area_bef:.1f} m2 ({total_area_aft/total_area_bef*100 - 100:.04f}%, '
+          f'or {int((total_area_aft - total_area_bef)/area_size_threshold_m2)} tiny glaciers)')
+    
+    if check:
+        print(f'Final check...')
+        remaining = compute_self_overlaps(gdf.geometry)
+        assert remaining['geometry'].to_crs({'proj': 'cea'}).area.lt(1e-6).all()
+        print(f'OK! Check done')
+    
+    return gdf
+
+
+def correct_geoms_deprecated(gdf, pick_second=False):
     
     gdf_new = gdf.copy()
     isv = gdf.is_valid
@@ -298,7 +422,8 @@ def correct_geoms(gdf, pick_second=False):
         print(f'Found {n_no} invalid geometries out of {len(gdf)}. Correcting...')
     
     total_area_bef = gdf['area'].sum()
-
+    
+    counter = 0
     for i, s in gdf.loc[~isv].iterrows():
           
         new_geom = make_valid(s.geometry)
