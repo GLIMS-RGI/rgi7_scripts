@@ -1,3 +1,9 @@
+""" Author: Ethan Welty
+
+Repository: https://github.com/ezwelty/rgi_links
+
+Couple minor modifs by Fabien Maussion here.
+"""
 from typing import List, Union
 from pathlib import Path
 import re
