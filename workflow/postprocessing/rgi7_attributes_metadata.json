@@ -1,1 +1,234 @@
-{"rgi_id": {"long_name": "rgi_identifier", "description": "Unique identifier assigned to a single outline by the RGI", "datatype": "str", "units": "", "source": "RGI", "rgi6_name": "RGI_Id"}, "o1region": {"long_name": "first_order_region", "description": "The code of the first-order region to which the glacier belongs.", "datatype": "str", "units": "", "source": "RGI", "rgi6_name": "O1Region"}, "o2region": {"long_name": "second_order_region", "description": "The code of the second-order region to which the glacier belongs.", "datatype": "str", "units": "", "source": "RGI", "rgi6_name": "O2Region"}, "glims_id": {"long_name": "glims_identifier", "description": "Non-unique identifier assigned to glaciers by the Global Land Ice Measurements from Space service at NSIDC", "datatype": "str", "units": "", "source": "GLIMS", "rgi6_name": "GLIMS_Id"}, "anlys_id": {"long_name": "analysis_identifier", "description": "The unique identifier assigned within GLIMS for a particular outline of a glacier at a particular time.", "datatype": "int", "units": "", "source": "GLIMS", "rgi6_name": ""}, "subm_id": {"long_name": "submission_id", "description": "Unique identifier assigned by GLIMS to a specific data submission. Allows to obtain information about the analysts and data submitters.", "datatype": "int", "units": "", "source": "GLIMS", "rgi6_name": ""}, "src_date": {"long_name": "source_date", "description": "The as-of date for the outline (usually the acquisition date of the image), in the format ISO 8601.", "datatype": "str", "units": "date", "source": "GLIMS", "rgi6_name": "BgnDate"}, "primeclass": {"long_name": "primary_classification", "description": "Primary WGMS classification of the glacier.", "datatype": "int", "units": "", "source": "GLIMS", "rgi6_name": ""}, "conn_lvl": {"long_name": "connectivity_level", "description": "Level of connection to the Greenland Icesheet (0: no connection; 1: weak connection, 2: not in RGI).", "datatype": "int", "units": "", "source": "GLIMS", "rgi6_name": "Connect"}, "glac_name": {"long_name": "glacier_name", "description": "Glacier name (when available).", "datatype": "str", "units": "", "source": "GLIMS", "rgi6_name": "Name"}, "is_rgi6": {"long_name": "same_as_rgi6", "description": "Flag indicating if the outline is the same as in RGI6 (1) or was remapped (0). Note that it does not guarantee strict equivalence of the polygon.", "datatype": "int", "units": "", "source": "RGI", "rgi6_name": ""}, "cenlon": {"long_name": "center_longitude", "description": "Longitude of the representative point of the glacier, guaranteed to be located within the glacier outlines and approximatively central (not the centroid).", "datatype": "float", "units": "degrees", "source": "Automated", "rgi6_name": "CenLon"}, "cenlat": {"long_name": "center_latitude", "description": "Latitude of the representative point of the glacier, guaranteed to be located within the glacier outlines and approximatively central (not the centroid).", "datatype": "float", "units": "degrees", "source": "Automated", "rgi6_name": "CenLat"}, "termlon": {"long_name": "terminus_longitude", "description": "Longitude of the lowest elevation point on the glacier outline.", "datatype": "float", "units": "degrees", "source": "Automated", "rgi6_name": ""}, "termlat": {"long_name": "terminus_latitude", "description": "Latitude of the lowest elevation point on the glacier outline.", "datatype": "float", "units": "degrees", "source": "Automated", "rgi6_name": ""}, "area_km2": {"long_name": "area_km2", "description": "Area of the glacier.", "datatype": "float", "units": "km2", "source": "Automated", "rgi6_name": "Area"}, "zmin_m": {"long_name": "minimum_elevation_m", "description": "Minimum elevation (m above sea level) of the glacier.", "datatype": "float", "units": "m", "source": "Automated", "rgi6_name": "Zmin"}, "zmax_m": {"long_name": "maximum_elevation_m", "description": "Maximum elevation (m above sea level) of the glacier.", "datatype": "float", "units": "m", "source": "Automated", "rgi6_name": "Zmax"}, "zmed_m": {"long_name": "median_elevation_m", "description": "Median elevation (m above sea level) of the glacier.", "datatype": "float", "units": "m", "source": "Automated", "rgi6_name": "Zmed"}, "zmean_m": {"long_name": "mean_elevation_m", "description": "Mean elevation (m above sea level) of the glacier.", "datatype": "float", "units": "m", "source": "Automated", "rgi6_name": ""}, "slope_deg": {"long_name": "slope_degrees", "description": "Mean slope of the glacier surface.", "datatype": "float", "units": "degrees", "source": "Automated", "rgi6_name": "Slope"}, "aspect_deg": {"long_name": "aspect_degrees", "description": "The aspect (orientation) of the glacier surface presented as an azimuth relative to 0\u00b0 at due north.", "datatype": "float", "units": "degrees", "source": "Automated", "rgi6_name": "Aspect"}, "lmax_m": {"long_name": "max_length_m", "description": "Length (m) of the longest surface centerline of the glacier.", "datatype": "float", "units": "m", "source": "Automated", "rgi6_name": "Lmax"}, "geometry": {"long_name": "geometry", "description": "Glacier geometry (Polygon)", "datatype": "", "units": "deg", "source": "GLIMS", "rgi6_name": "geometry"}}
+{
+  "rgi_id": {
+    "long_name": "RGI identifier",
+    "description": "Unique identifier assigned to a single outline.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": "RGI_Id"
+  },
+  "o1region": {
+    "long_name": "First order region",
+    "description": "The code of the first-order region to which the glacier belongs.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": "O1Region"
+  },
+  "o2region": {
+    "long_name": "Second order region",
+    "description": "The code of the second-order region to which the glacier belongs.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": "O2Region"
+  },
+  "glims_id": {
+    "long_name": "GLIMS identifier",
+    "description": "Non-unique identifier assigned to glaciers by the Global Land Ice Measurements from Space service at NSIDC.",
+    "datatype": "str",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": "GLIMS_Id"
+  },
+  "anlys_id": {
+    "long_name": "Analysis identifier",
+    "description": "The unique identifier assigned within GLIMS for a particular outline of a glacier at a particular time.",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "subm_id": {
+    "long_name": "Submission identifier",
+    "description": "Unique identifier assigned by GLIMS to a specific data submission. Allows to obtain information about the analysts and data submitters.",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "src_date": {
+    "long_name": "Outline source date",
+    "description": "The as-of date for the outline (usually the acquisition date of the image), in the format ISO 8601.",
+    "datatype": "str",
+    "units": "date",
+    "source": "GLIMS",
+    "rgi6_name": "BgnDate"
+  },
+  "cenlon": {
+    "long_name": "Center longitude",
+    "description": "Longitude of an approximately central point within the glacier outlines (not the centroid).",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": "CenLon"
+  },
+  "cenlat": {
+    "long_name": "Center latitude",
+    "description": "Latitude of an approximately central point within the glacier outlines (not the centroid).",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": "CenLat"
+  },
+  "utm_zone": {
+    "long_name": "UTM zone",
+    "description": "Number of the UTM zone for this glacier, based on its representative point. Note that this attribute is for information only, the geometries are all in WGS84.",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "area_km2": {
+    "long_name": "Glacier area",
+    "description": "Area of the glacier.",
+    "datatype": "float",
+    "units": "km2",
+    "source": "RGI",
+    "rgi6_name": "Area"
+  },
+  "primeclass": {
+    "long_name": "Primary classification",
+    "description": "WGMS primary classification of the glacier. For a categories description, see user guide.",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "conn_lvl": {
+    "long_name": "Connectivity level",
+    "description": "Level of connection to the Greenland Icesheet (0: no connection; 1: weak connection).",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": "Connect"
+  },
+  "surge_type": {
+    "long_name": "Evidence for surging",
+    "description": "Flag indicating if surging behavior has been documented for this glacier. For a categories description, see user guide.",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": "Surging"
+  },
+  "term_type": {
+    "long_name": "Glacier terminus type",
+    "description": "Flag indicating the terminus type of the glacier. For a categories description, see user guide.",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": "TermType"
+  },
+  "glac_name": {
+    "long_name": "Glacier name",
+    "description": "Glacier name (when available).",
+    "datatype": "str",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": "Name"
+  },
+  "is_rgi6": {
+    "long_name": "Same as RGI 6.0 outline",
+    "description": "Flag indicating if the outline is the same as in RGI 6.0 (1) or was remapped (0). Note that it does not guarantee strict equivalence of the polygon (in most of the cases it does).",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "termlon": {
+    "long_name": "Terminus longitude",
+    "description": "Longitude of the lowest elevation point on the glacier outline.",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "termlat": {
+    "long_name": "Terminus latitude",
+    "description": "Latitude of the lowest elevation point on the glacier outline.",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "zmin_m": {
+    "long_name": "Minimum elevation",
+    "description": "Minimum elevation (m above sea level) of the glacier.",
+    "datatype": "float",
+    "units": "m",
+    "source": "RGI",
+    "rgi6_name": "Zmin"
+  },
+  "zmax_m": {
+    "long_name": "Maximum elevation",
+    "description": "Maximum elevation (m above sea level) of the glacier.",
+    "datatype": "float",
+    "units": "m",
+    "source": "RGI",
+    "rgi6_name": "Zmax"
+  },
+  "zmed_m": {
+    "long_name": "Median elevation",
+    "description": "Median elevation (m above sea level) of the glacier.",
+    "datatype": "float",
+    "units": "m",
+    "source": "RGI",
+    "rgi6_name": "Zmed"
+  },
+  "zmean_m": {
+    "long_name": "Mean elevation",
+    "description": "Mean elevation (m above sea level) of the glacier.",
+    "datatype": "float",
+    "units": "m",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "slope_deg": {
+    "long_name": "Mean slope",
+    "description": "Mean slope of the glacier surface.",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": "Slope"
+  },
+  "aspect_deg": {
+    "long_name": "Aspect",
+    "description": "The aspect (orientation) of the glacier surface presented as an azimuth relative to 0\u00b0 at due north.",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": "Aspect"
+  },
+  "aspect_sec": {
+    "long_name": "Aspect sector",
+    "description": "The aspect (orientation) of the glacier surface presented as a category. For a categories description, see user guide.",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "dem_source": {
+    "long_name": "DEM data source",
+    "description": "The name of the dataset that was used to compute the topography attributes.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "lmax_m": {
+    "long_name": "Maximum length",
+    "description": "Length (m) of the longest surface centerline of the glacier.",
+    "datatype": "int",
+    "units": "m",
+    "source": "RGI",
+    "rgi6_name": "Lmax"
+  },
+  "geometry": {
+    "long_name": "Geometry",
+    "description": "Glacier geometry (Polygon)",
+    "datatype": "",
+    "units": "deg",
+    "source": "GLIMS",
+    "rgi6_name": "geometry"
+  }
+}

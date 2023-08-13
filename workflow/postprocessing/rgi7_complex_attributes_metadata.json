@@ -1,0 +1,66 @@
+{
+  "rgi_id": {
+    "long_name": "RGI identifier",
+    "description": "Unique identifier assigned to a single glacier complex.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "o1region": {
+    "long_name": "First order region",
+    "description": "The code of the first-order region to which the glacier belongs.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": "O1Region"
+  },
+  "o2region": {
+    "long_name": "Second order region",
+    "description": "The code of the second-order region to which the glacier belongs.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": "O2Region"
+  },
+  "cenlon": {
+    "long_name": "Center longitude",
+    "description": "Longitude of an approximately central point within the glacier outlines (not the centroid).",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": "CenLon"
+  },
+  "cenlat": {
+    "long_name": "Center latitude",
+    "description": "Latitude of an approximately central point within the glacier outlines (not the centroid).",
+    "datatype": "float",
+    "units": "degrees",
+    "source": "RGI",
+    "rgi6_name": "CenLat"
+  },
+  "utm_zone": {
+    "long_name": "UTM zone",
+    "description": "Number of the UTM zone for this glacier complex, based on its representative point. Note that this attribute is for information only, the geometries are all in WGS84.",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "area_km2": {
+    "long_name": "Glacier complex area",
+    "description": "Area of the glacier complex.",
+    "datatype": "float",
+    "units": "km2",
+    "source": "RGI",
+    "rgi6_name": "Area"
+  },
+  "geometry": {
+    "long_name": "Geometry",
+    "description": "Glacier complex geometry (Polygon).",
+    "datatype": "",
+    "units": "deg",
+    "source": "RGI",
+    "rgi6_name": ""
+  }
+}

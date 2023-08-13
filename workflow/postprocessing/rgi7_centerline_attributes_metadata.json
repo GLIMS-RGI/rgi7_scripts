@@ -1,0 +1,66 @@
+{
+  "rgi_id": {
+    "long_name": "RGI identifier",
+    "description": "Unique identifier assigned to a single intersect line.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "rgi_g_id": {
+    "long_name": "RGI glacier identifier",
+    "description": "Glacier ID to which the centerline belongs.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "segment_id": {
+    "long_name": "Segment identifier",
+    "description": "Integer number uniquely identifying this centerline within the glacier. The main centerline is always last.",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "is_main": {
+    "long_name": "Is main centerline",
+    "description": "Integer number indicating whether the centerline in the main centerline (1) or not (0). There is only one main centerline per glacier.",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "outflow_id": {
+    "long_name": "Outflow segment identifier",
+    "description": "Each secondary centerline flows into another centerline. This identifier points to the `segment_id` to which this centerline flows to.",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "strahler_n": {
+    "long_name": "Strahler number of this centerline.",
+    "description": "Strahler number (hydrological order) of the centerline, from lowest (1, line without tributaries but with possible descendants) to highest (the main centerline).",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "length_m": {
+    "long_name": "Centerline length",
+    "description": "Length of the centerline in meters.",
+    "datatype": "int",
+    "units": "m",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "geometry": {
+    "long_name": "Geometry",
+    "description": "Centerline geometry (LineString).",
+    "datatype": "",
+    "units": "deg",
+    "source": "RGI",
+    "rgi6_name": ""
+  }
+}

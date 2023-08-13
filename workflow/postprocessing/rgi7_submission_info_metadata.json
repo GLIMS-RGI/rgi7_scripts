@@ -1,1 +1,82 @@
-{"subm_id": {"long_name": "submission_id", "description": "Unique identifier assigned by GLIMS to a specific data submission. Allows to obtain information about the analysts and data submitters.", "datatype": "int", "units": "", "source": "GLIMS", "rgi6_name": ""}, "n_outlines": {"long_name": "number_of_outlines", "description": "Number of outlines from this submission used in RGI7.", "datatype": "int", "units": "", "source": "RGI", "rgi6_name": ""}, "area_km2": {"long_name": "total_area_of_outlines", "description": "Total area of the outlines from this submission used in RGI7.", "datatype": "float", "units": "km2", "source": "RGI", "rgi6_name": ""}, "anlys_time": {"long_name": "analysis_time", "description": "Representative time the outline analysis was carried out.", "datatype": "str", "units": "date", "source": "GLIMS", "rgi6_name": ""}, "release_dt": {"long_name": "release_date", "description": "Date at which the submission was realeased on GLIMS.", "datatype": "str", "units": "date", "source": "GLIMS", "rgi6_name": ""}, "proc_desc": {"long_name": "processing_description", "description": "Description of the processing done to create the glacier outlines.", "datatype": "str", "units": "", "source": "GLIMS", "rgi6_name": ""}, "chief_affl": {"long_name": "chief_affiliation", "description": "Affiliation of the chief of the regional center or the person(s) who submitted the data.", "datatype": "str", "units": "", "source": "GLIMS", "rgi6_name": ""}, "submitters": {"long_name": "submitters", "description": "Person(s) who submitted the data.", "datatype": "str", "units": "", "source": "GLIMS", "rgi6_name": ""}, "analysts": {"long_name": "analysts", "description": "Person(s) who created the data.", "datatype": "str", "units": "", "source": "GLIMS", "rgi6_name": ""}, "rc_id": {"long_name": "regional_center_id", "description": "GLIMS ID for the regional center.", "datatype": "int", "units": "", "source": "GLIMS", "rgi6_name": ""}}
+{
+  "subm_id": {
+    "long_name": "submission_id",
+    "description": "Unique identifier assigned by GLIMS to a specific data submission. Allows to obtain information about the analysts and data submitters.",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "n_outlines": {
+    "long_name": "number_of_outlines",
+    "description": "Number of outlines from this submission used in RGI 7.0.",
+    "datatype": "int",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "area_km2": {
+    "long_name": "total_area_of_outlines",
+    "description": "Total area of the outlines from this submission used in RGI 7.0.",
+    "datatype": "float",
+    "units": "km2",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "anlys_time": {
+    "long_name": "analysis_time",
+    "description": "Representative time the outline analysis was carried out.",
+    "datatype": "str",
+    "units": "date",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "release_dt": {
+    "long_name": "release_date",
+    "description": "Date at which the submission was realeased on GLIMS.",
+    "datatype": "str",
+    "units": "date",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "proc_desc": {
+    "long_name": "processing_description",
+    "description": "Description of the processing done to create the glacier outlines.",
+    "datatype": "str",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "chief_affl": {
+    "long_name": "chief_affiliation",
+    "description": "Affiliation of the chief of the regional center or the person(s) who submitted the data.",
+    "datatype": "str",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "submitters": {
+    "long_name": "submitters",
+    "description": "Person(s) who submitted the data.",
+    "datatype": "str",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "analysts": {
+    "long_name": "analysts",
+    "description": "Person(s) who created the data.",
+    "datatype": "str",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  },
+  "rc_id": {
+    "long_name": "regional_center_id",
+    "description": "GLIMS ID for the regional center.",
+    "datatype": "int",
+    "units": "",
+    "source": "GLIMS",
+    "rgi6_name": ""
+  }
+}

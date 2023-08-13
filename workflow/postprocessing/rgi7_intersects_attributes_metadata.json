@@ -1,0 +1,42 @@
+{
+  "rgi_id": {
+    "long_name": "RGI identifier",
+    "description": "Unique identifier assigned to a single intersect line.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "rgi_g_id_1": {
+    "long_name": "RGI glacier identifier of glacier 1",
+    "description": "Glacier identifier of the intersected glacier number 1. An intersect line is always connecting two glaciers, but the choice of which glacier is listed as 1 is arbitrary.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "rgi_g_id_2": {
+    "long_name": "RGI glacier identifier of glacier 2",
+    "description": "Glacier identifier of the intersected glacier number 2. An intersect line is always connecting two glaciers, but the choice of which glacier is listed as 2 is arbitrary.",
+    "datatype": "str",
+    "units": "",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "length_m": {
+    "long_name": "Intersect length",
+    "description": "Length of the intersect in meters.",
+    "datatype": "float",
+    "units": "m",
+    "source": "RGI",
+    "rgi6_name": ""
+  },
+  "geometry": {
+    "long_name": "Geometry",
+    "description": "Intersect geometry (LineString).",
+    "datatype": "",
+    "units": "deg",
+    "source": "RGI",
+    "rgi6_name": ""
+  }
+}

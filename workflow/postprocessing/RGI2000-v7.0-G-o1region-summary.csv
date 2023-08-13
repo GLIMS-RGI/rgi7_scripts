@@ -1,0 +1,22 @@
+"o1region","full_name","long_code","count","area_km2"
+"01","Alaska","01_alaska",27509,86708
+"02","Western Canada and USA","02_western_canada_usa",18730,14521
+"03","Arctic Canada North","03_arctic_canada_north",5216,105370
+"04","Arctic Canada South","04_arctic_canada_south",11009,40538
+"05","Greenland Periphery","05_greenland_periphery",19994,90482
+"06","Iceland","06_iceland",568,11060
+"07","Svalbard and Jan Mayen","07_svalbard_jan_mayen",1666,33959
+"08","Scandinavia","08_scandinavia",3410,2948
+"09","Russian Arctic","09_russian_arctic",1069,51595
+"10","North Asia","10_north_asia",7155,2643
+"11","Central Europe","11_central_europe",4079,2124
+"12","Caucasus and Middle East","12_caucasus_middle_east",2275,1407
+"13","Central Asia","13_central_asia",75613,50344
+"14","South Asia West","14_south_asia_west",37562,33075
+"15","South Asia East","15_south_asia_east",18587,16049
+"16","Low Latitudes","16_low_latitudes",3695,1929
+"17","Southern Andes","17_southern_andes",30634,27674
+"18","New Zealand","18_new_zealand",3018,886
+"19","Subantarctic and Antarctic Islands","19_subantarctic_antarctic_islands",2742,133432
+"20","Antarctic Mainland","20_antarctic_mainland",0,0
+"Global","","",274531,706744
