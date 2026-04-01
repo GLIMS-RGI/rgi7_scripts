@@ -1,10 +1,12 @@
 # Scripts used to generate the Randolph Glacier Inventory version 7
 
-RGI7 is the next version of the Randolph Glacier Inventory. RGI7 intends to be the reference inventory for all of the world's glaciers outside of the two ice sheets. All glacier outlines should be mapped as close as possible to the the year 2000. 
+RGI7 is the next version of the Randolph Glacier Inventory. See https://www.glims.org/rgi_user_guide for a full documentation.
 
-Unlike previous versions of the RGI, RGI7 will be a pure subset of the GLIMS database. This repository contains the scripts that generate RGI7 out of GLIMS. 
+Unlike previous versions of the RGI, RGI7 is subset of the GLIMS database. This repository contains the scripts that generate RGI7 out of GLIMS. 
 
-This is a work in progress! Contributions and feedback welcome.
+RGI7 is now published. Current work focusses on RGI7.1
+
+Contributions and feedback welcome.
 
 ![RGI Workflow](img/workflow_rgi.png)
 
@@ -24,56 +26,25 @@ Notebooks in the [workflow/preprocessing](workflow/preprocessing) folder:
 
 Regional notebooks scripts are in the [workflow](workflow) folder.
 
-The RGI7 alpha files are available in https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l3_rgi7a_tar. 
-**All regions are now available for review**.
+The RGI7 alpha files are available in https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l3_rgi7a_tar.
 
-For accurate, up-to-date information about each region, jumpt to the [RGI7 wiki](https://github.com/GLIMS-RGI/rgi7_scripts/wiki/RGI-7-wiki).
+They were reviewed by the community in 2023.
 
 ## 03. Attribute generation workflow
 
-TBA.
+The postprocessing workflow cleans the files and adds attributes not available in the GLIMS database. The structure here is always the same for all 
+regions, hence we wrote a template script and used papermill to apply it to all regions.
 
-## Downloads
+Notebooks in the [workflow/postprocessing](workflow/postprocessing) folder:
 
-The files at each level (in tar or shapefile format) are downloadable here:
+- [Alpha to beta](workflow/postprocessing/alpha_to_beta): compute glacier center point, assign subregions, assign RGI attributes names and types with [rgi7_attributes_metadata.json](workflow/postprocessing/rgi7_attributes_metadata.json), assign an RGI ID, assign UTM zone, add links to RGI6 (this includes [a bug](https://github.com/GLIMS-RGI/rgi_issue_tracker/issues/41)), extract the submission id information, compute the interesects, create the merged glacier complex product, and write everything out.
+- [beta0 to beta1](workflow/postprocessing/beta0_to_beta1): add the hypsometry data
+- [beta1 to beta2](workflow/postprocessing/beta1_to_beta2): add the centerline product
+- [recompute_links_after_release](workflow/postprocessing/recompute_links_after_release): fix [the bug](https://github.com/GLIMS-RGI/rgi_issue_tracker/issues/41) mentioned earlier.
 
-https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/
+## RGI7.1
 
-Careful! The files might (and will) change with time.
-
-File name conventions:
-- "level 2 files" (`l2_sel_reg_tars`): GLIMS data files after preprocessing. Ready for the outlines choice scripts.
-- "RGI alpha" (`l3_rgi7a_tar`): selected outlines for RGI7, still with GLIMS attributes. Ready for review of the outlines choice.
-- "RGI beta" (not there yet) : alpha files with RGI attributes. Ready for review before final publication.
-
-Other folders contain files which are used for testing in production (`l0_support_data`) or which are used to report problems to GLIMS (`l3_problem_glaciers_tar`).
-
-
-**Download all data at once (currently about 12G):**
-
-```bash
-$ mkdir rgi7_data
-$ cd rgi7_data
-$ wget --recursive --no-parent --cut-dirs=3 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/
-```
-
-This will recursively download all currently available files on the server, including pre-processing levels and some necessary duplicated files. 
-
-**If you want to participate to the RGI review process**, you may download only the alpha version regional files:
-
-```bash
-$ mkdir rgi7a
-$ cd rgi7a
-$ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l3_rgi7a/
-```
-
-**If you want to participate to the RGI selection process**, you may download the level 2 files as well:
-
-```bash
-$ mkdir l2_sel_reg_tars
-$ cd l2_sel_reg_tars
-$ wget --recursive --no-parent --cut-dirs=4 -nH -R "index.html*" https://cluster.klima.uni-bremen.de/~fmaussion/misc/rgi7_data/l2_sel_reg_tars/
-```
+The scripts for RGI7.1 are bein added in the v7.1 folder. The 7.1 workflow starts from RGI7.0's official files and makes its way from there.
 
 ## License
 
